@@ -1,0 +1,9 @@
+module addr_v2 ( PCi, MuxIn, AddrOut);
+
+input [7:0] PCi;
+input [7:0] MuxIn;
+output [7:0] AddrOut;
+	
+assign AddrOut = PCi + MuxIn;
+
+endmodule

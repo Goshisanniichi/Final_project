@@ -1,0 +1,50 @@
+module Datapath (clk, reset, PCSrc, ALUSrc, ALUOp, MemWrite, MemtoReg, MemRead, RegWrite, Status, final_out);
+
+input reset, clk;
+output 
+
+wire[4:0] rd,rs1,rs2;
+wire[11:0] imm; 
+wire[31:0] PCout;
+wire[31:0] PCin;
+wire[31:0] ROMout;
+wire[] RF1; 
+wire[] RF2
+wire[] RegRW 
+wire []immgenout
+wire []addr
+wire []adderout
+wire [] RAMout
+wire [] ALUout
+wire []instrout
+wire [] MRW
+wire [] ALUin
+wire [] final_out,
+
+
+ProgramCounter inst0 (clk, reset, PCin, PCout); //ProgramCounter(clk, reset, PCo, PCi);
+
+addr inst1 (PCin,PCout, addr); //addr (PCi, PCo);
+
+ROM inst2 (PCout, ROMout); // ROM(address, InstOut);
+
+InstructionDecoder inst3 (ROMout, rd, rs1, rs2, imm); //InstructionDecoder(instr, rd, rs1, rs2, imm)
+
+reg_32x32 inst4 (final_out,rd,rs1,rs2, RF1, RF2, RegRW) //reg_32x32 (clock, reset, D, DA, SA, SB, W, A, B);SA-ReadAddress1, SB-ReadAddress2, DA-WriteAddress,
+
+mux2to1 rftoalu (ALUsrc, ALUin, RF2, immgenout) //module mux2to1(mOut, address, mIn);
+
+mux2to1 adr2adr (addr,adderout, PCin) //module mux2to1(mOut, address, mIn);
+
+mux2to1 ramalutorf (RAMout, ALUout, final_out ) //module mux2to1(mOut, address, mIn);
+
+immgen inst8 (instr, immgenout) //module immgen(imm_in, imm_out);
+
+addr_v2 inst9 (PCout, RF2, adderout) //module addr_v2 ( PCi, MuxIn, AddrOut);
+
+RAM_256x32 inst10 (ALUOut, RF2, MRW, RAMout) //module RAM_256x32(CLK, WR, Din, address, Dout, D0, D1, D2, D3);
+
+ALU inst11 (ALUop, RF1, ALUin, status_flag, ALUout) //module ALU  (A, B, c_in, sel, out, status);
+
+
+endmodule 

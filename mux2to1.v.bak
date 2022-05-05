@@ -1,0 +1,16 @@
+module mux2to1 (mIn1, mIn2, sel, mOut);
+
+	input  sel;
+	input mIn1,mIn2;
+	output reg mOut;
+
+
+	always @(sel)
+	begin
+		
+	mOut = sel ? mIn2 : mIn1;
+
+	end
+
+
+endmodule
